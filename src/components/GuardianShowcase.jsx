@@ -1,44 +1,196 @@
-function GuardianShowcase() {
-  const flow = [
-    {
-      number: "01",
-      title: "THREAT DETECTED",
-      text: "Guardian detects critical Discord activity as it happens.",
-    },
-    {
-      number: "02",
-      title: "ACTOR IDENTIFIED",
-      text: "Discord Audit Logs are analyzed to attribute the action.",
-    },
-    {
-      number: "03",
-      title: "EVIDENCE SECURED",
-      text: "Guardian preserves verified forensic state inside the Black Box.",
-    },
-    {
-      number: "04",
-      title: "INCIDENT CREATED",
-      text: "The security event becomes a structured Guardian incident.",
-    },
-    {
-      number: "05",
-      title: "THREAT CORRELATED",
-      text: "Related activity is connected into a larger security picture.",
-    },
-    {
-      number: "06",
-      title: "RECOVERY PREPARED",
-      text: "Guardian determines what can safely be restored.",
-    },
-  ]
+const GUARDIAN_INVITE_URL =
+  "https://discord.com/oauth2/authorize?client_id=1535228662641725520"
 
+const securityEventData = [
+  {
+    label: "EVENT",
+    value: "CHANNEL DELETE",
+    className: "",
+  },
+  {
+    label: "SEVERITY",
+    value: "HIGH",
+    className: "danger-value",
+  },
+  {
+    label: "ACTOR",
+    value: "IDENTIFIED",
+    className: "",
+  },
+  {
+    label: "BLACK BOX",
+    value: "SECURED",
+    className: "safe-value",
+  },
+  {
+    label: "INTEGRITY",
+    value: "SHA-256",
+    className: "",
+  },
+  {
+    label: "RECOVERY",
+    value: "AVAILABLE",
+    className: "safe-value",
+  },
+]
+
+const capabilities = [
+  {
+    number: "01",
+    title: "ROLE SECURITY",
+    text:
+      "Monitors dangerous role permission changes, attributes the actor and records verified security evidence.",
+  },
+  {
+    number: "02",
+    title: "CHANNEL SECURITY",
+    text:
+      "Detects critical channel activity and preserves structural state for supported recovery operations.",
+  },
+  {
+    number: "03",
+    title: "WEBHOOK SECURITY",
+    text:
+      "Monitors webhook creation, updates and deletion while keeping webhook tokens and URLs out of forensic storage.",
+  },
+  {
+    number: "04",
+    title: "BLACK BOX",
+    text:
+      "Preserves verified forensic snapshots with SHA-256 integrity protection for supported security events.",
+  },
+  {
+    number: "05",
+    title: "INCIDENT ENGINE",
+    text:
+      "Transforms critical security activity into structured incidents designed for investigation and response.",
+  },
+  {
+    number: "06",
+    title: "THREAT CORE",
+    text:
+      "Correlates related incidents so suspicious activity is analyzed as a larger security picture instead of isolated alerts.",
+  },
+  {
+    number: "07",
+    title: "RECOVERY",
+    text:
+      "Determines what can safely be recovered and prepares supported structural restoration workflows.",
+  },
+  {
+    number: "08",
+    title: "ZERO SETUP",
+    text:
+      "Add Guardian to a server and its private control infrastructure is provisioned and maintained automatically.",
+  },
+  {
+    number: "09",
+    title: "TRUSTED ACTIONS",
+    text:
+      "Guardian distinguishes verified internal recovery operations from hostile activity to prevent false incidents.",
+  },
+]
+
+const responseFlow = [
+  {
+    number: "01",
+    title: "THREAT DETECTED",
+    text:
+      "Guardian detects critical Discord activity as it happens.",
+  },
+  {
+    number: "02",
+    title: "ACTOR IDENTIFIED",
+    text:
+      "Discord Audit Logs are analyzed to attribute the action to the responsible account.",
+  },
+  {
+    number: "03",
+    title: "STATE PRESERVED",
+    text:
+      "Guardian captures the supported structural state surrounding the security event.",
+  },
+  {
+    number: "04",
+    title: "EVIDENCE SECURED",
+    text:
+      "Forensic evidence is preserved inside the Guardian Black Box with integrity verification.",
+  },
+  {
+    number: "05",
+    title: "INCIDENT CREATED",
+    text:
+      "The security event becomes a structured Guardian incident with a unique forensic record.",
+  },
+  {
+    number: "06",
+    title: "THREAT CORRELATED",
+    text:
+      "Related security activity is connected through Threat Core instead of being treated as isolated alerts.",
+  },
+  {
+    number: "07",
+    title: "RECOVERY ANALYZED",
+    text:
+      "Guardian determines which parts of the affected Discord structure can safely be restored.",
+  },
+  {
+    number: "08",
+    title: "CONTROL RESTORED",
+    text:
+      "Server operators receive the evidence, incident context and supported recovery path needed to respond.",
+  },
+]
+
+const traditionalSteps = [
+  "BAD ACTION",
+  "ALERT / PUNISH",
+]
+
+const guardianSteps = [
+  "BAD ACTION",
+  "IDENTIFY ACTOR",
+  "PRESERVE STATE",
+  "SECURE EVIDENCE",
+  "CREATE INCIDENT",
+  "CORRELATE THREAT",
+  "PREPARE RECOVERY",
+]
+
+function FlowSteps({ steps, guardian = false }) {
   return (
-    <section className="guardian-showcase" id="guardian">
+    <div className="comparison-flow">
+      {steps.map((step, index) => (
+        <div key={step}>
+          <strong>{step}</strong>
+
+          {index < steps.length - 1 && (
+            <i aria-hidden="true">↓</i>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function GuardianShowcase() {
+  return (
+    <section
+      className="guardian-showcase"
+      id="guardian"
+      aria-labelledby="guardian-title"
+    >
+      {/* =====================================================
+          GUARDIAN INTRO
+          ===================================================== */}
+
       <div className="guardian-heading">
         <div>
-          <p className="eyebrow">001 PRODUCT / 01</p>
+          <p className="eyebrow">
+            001 PRODUCT / 01
+          </p>
 
-          <h2>
+          <h2 id="guardian-title">
             001
             <span> GUARDIAN</span>
           </h2>
@@ -50,20 +202,28 @@ function GuardianShowcase() {
           </p>
 
           <span>
-            Protection, forensic evidence, incident intelligence and
-            structural recovery inside one security platform.
+            Advanced Discord security designed to detect critical activity,
+            identify the actor, preserve forensic evidence, correlate related
+            threats and prepare supported structural recovery.
           </span>
         </div>
       </div>
+
+      {/* =====================================================
+          LIVE SECURITY EVENT
+          ===================================================== */}
 
       <div className="guardian-terminal">
         <div className="terminal-topbar">
           <div className="terminal-title">
             <span className="terminal-dot" />
+
             GUARDIAN LIVE SECURITY EVENT
           </div>
 
-          <span className="terminal-status">LIVE</span>
+          <span className="terminal-status">
+            LIVE
+          </span>
         </div>
 
         <div className="terminal-body">
@@ -72,49 +232,43 @@ function GuardianShowcase() {
               SECURITY EVENT
             </span>
 
-            <h3>CHANNEL DELETION DETECTED</h3>
+            <h3>
+              CHANNEL DELETION DETECTED
+            </h3>
 
             <div className="terminal-data">
-              <div>
-                <span>EVENT</span>
-                <strong>CHANNEL DELETE</strong>
-              </div>
+              {securityEventData.map((item) => (
+                <div key={item.label}>
+                  <span>
+                    {item.label}
+                  </span>
 
-              <div>
-                <span>SEVERITY</span>
-                <strong className="danger-value">HIGH</strong>
-              </div>
-
-              <div>
-                <span>ACTOR</span>
-                <strong>IDENTIFIED</strong>
-              </div>
-
-              <div>
-                <span>BLACK BOX</span>
-                <strong className="safe-value">SECURED</strong>
-              </div>
-
-              <div>
-                <span>INTEGRITY</span>
-                <strong>SHA-256</strong>
-              </div>
-
-              <div>
-                <span>RECOVERY</span>
-                <strong className="safe-value">AVAILABLE</strong>
-              </div>
+                  <strong
+                    className={item.className || undefined}
+                  >
+                    {item.value}
+                  </strong>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="terminal-visual">
+          <div
+            className="terminal-visual"
+            aria-hidden="true"
+          >
             <div className="threat-circle threat-circle-one" />
             <div className="threat-circle threat-circle-two" />
             <div className="threat-circle threat-circle-three" />
 
             <div className="threat-core">
-              <span>001</span>
-              <strong>GUARDIAN</strong>
+              <span>
+                001
+              </span>
+
+              <strong>
+                GUARDIAN
+              </strong>
             </div>
 
             <div className="threat-pulse" />
@@ -122,71 +276,55 @@ function GuardianShowcase() {
         </div>
 
         <div className="terminal-footer">
-          <span>INCIDENT ENGINE: ACTIVE</span>
-          <span>THREAT CORE: ARMED</span>
-          <span>BLACK BOX: READY</span>
+          <span>
+            INCIDENT ENGINE: ACTIVE
+          </span>
+
+          <span>
+            THREAT CORE: ARMED
+          </span>
+
+          <span>
+            BLACK BOX: READY
+          </span>
+
+          <span>
+            RECOVERY: READY
+          </span>
         </div>
       </div>
 
+      {/* =====================================================
+          CORE CAPABILITIES
+          ===================================================== */}
+
       <div className="guardian-capabilities">
-        <article>
-          <span className="capability-number">01</span>
-          <h3>LIVE PROTECTION</h3>
-          <p>
-            Continuous monitoring of critical role, channel and webhook
-            activity.
-          </p>
-        </article>
+        {capabilities.map((capability) => (
+          <article key={capability.number}>
+            <span className="capability-number">
+              {capability.number}
+            </span>
 
-        <article>
-          <span className="capability-number">02</span>
-          <h3>BLACK BOX</h3>
-          <p>
-            Verified forensic snapshots with integrity protection for
-            supported security events.
-          </p>
-        </article>
+            <h3>
+              {capability.title}
+            </h3>
 
-        <article>
-          <span className="capability-number">03</span>
-          <h3>INCIDENT ENGINE</h3>
-          <p>
-            Security events become structured incidents built for
-            investigation.
-          </p>
-        </article>
-
-        <article>
-          <span className="capability-number">04</span>
-          <h3>THREAT CORE</h3>
-          <p>
-            Related incidents are correlated instead of treated as isolated
-            alerts.
-          </p>
-        </article>
-
-        <article>
-          <span className="capability-number">05</span>
-          <h3>RECOVERY</h3>
-          <p>
-            Guardian determines and prepares supported structural recovery
-            operations.
-          </p>
-        </article>
-
-        <article>
-          <span className="capability-number">06</span>
-          <h3>ZERO SETUP</h3>
-          <p>
-            Add Guardian to the server and its private control infrastructure
-            is provisioned automatically.
-          </p>
-        </article>
+            <p>
+              {capability.text}
+            </p>
+          </article>
+        ))}
       </div>
+
+      {/* =====================================================
+          RESPONSE FLOW
+          ===================================================== */}
 
       <div className="attack-flow">
         <div className="attack-flow-heading">
-          <p className="eyebrow">HOW GUARDIAN RESPONDS</p>
+          <p className="eyebrow">
+            HOW GUARDIAN RESPONDS
+          </p>
 
           <h2>
             An attack becomes
@@ -195,19 +333,36 @@ function GuardianShowcase() {
         </div>
 
         <div className="flow-grid">
-          {flow.map((item) => (
-            <div className="flow-item" key={item.number}>
-              <span>{item.number}</span>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
+          {responseFlow.map((item) => (
+            <div
+              className="flow-item"
+              key={item.number}
+            >
+              <span>
+                {item.number}
+              </span>
+
+              <h3>
+                {item.title}
+              </h3>
+
+              <p>
+                {item.text}
+              </p>
             </div>
           ))}
         </div>
       </div>
 
+      {/* =====================================================
+          GUARDIAN VS TRADITIONAL ANTI-NUKE
+          ===================================================== */}
+
       <div className="guardian-comparison">
         <div className="comparison-heading">
-          <p className="eyebrow">BEYOND ANTI-NUKE</p>
+          <p className="eyebrow">
+            BEYOND ANTI-NUKE
+          </p>
 
           <h2>
             Detection isn't
@@ -217,47 +372,49 @@ function GuardianShowcase() {
 
         <div className="comparison-grid">
           <div className="comparison-card traditional">
-            <span>TRADITIONAL ANTI-NUKE</span>
+            <span>
+              TRADITIONAL ANTI-NUKE
+            </span>
 
-            <div className="comparison-flow">
-              <strong>BAD ACTION</strong>
-              <i>↓</i>
-              <strong>ALERT / PUNISH</strong>
-            </div>
+            <FlowSteps
+              steps={traditionalSteps}
+            />
 
             <p>
-              The event is stopped or reported, but the investigation often
+              Traditional protection commonly focuses on detecting the
+              action and punishing the account. The forensic story often
               ends there.
             </p>
           </div>
 
           <div className="comparison-card guardian">
-            <span>001 GUARDIAN</span>
+            <span>
+              001 GUARDIAN
+            </span>
 
-            <div className="comparison-flow">
-              <strong>BAD ACTION</strong>
-              <i>↓</i>
-              <strong>IDENTIFY ACTOR</strong>
-              <i>↓</i>
-              <strong>SECURE EVIDENCE</strong>
-              <i>↓</i>
-              <strong>CREATE INCIDENT</strong>
-              <i>↓</i>
-              <strong>CORRELATE THREAT</strong>
-              <i>↓</i>
-              <strong>PREPARE RECOVERY</strong>
-            </div>
+            <FlowSteps
+              steps={guardianSteps}
+              guardian
+            />
 
             <p>
-              Guardian preserves the story of the attack, not just the alert.
+              Guardian preserves the story of the attack — who acted,
+              what changed, what evidence was secured, how events are
+              related and what can be recovered.
             </p>
           </div>
         </div>
       </div>
 
+      {/* =====================================================
+          FINAL CALL TO ACTION
+          ===================================================== */}
+
       <div className="guardian-cta">
         <div>
-          <p className="eyebrow">001 GUARDIAN V1.0</p>
+          <p className="eyebrow">
+            001 GUARDIAN / V1.0.0
+          </p>
 
           <h2>
             Protect what you've
@@ -265,18 +422,31 @@ function GuardianShowcase() {
           </h2>
 
           <p>
-            Advanced Discord security designed for communities where
-            infrastructure, evidence and recovery matter.
+            Add 001 Guardian to your Discord server and activate an advanced
+            security layer built around live protection, forensic evidence,
+            incident intelligence, threat correlation and recovery.
           </p>
         </div>
 
         <div className="guardian-cta-actions">
-          <a href="#contact" className="primary-button">
+          <a
+            href={GUARDIAN_INVITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="primary-button"
+            aria-label="Add 001 Guardian to Discord"
+          >
             Add to Discord
-            <span>→</span>
+
+            <span aria-hidden="true">
+              →
+            </span>
           </a>
 
-          <a href="#contact" className="secondary-button">
+          <a
+            href="#contact"
+            className="secondary-button"
+          >
             Contact Support
           </a>
         </div>
