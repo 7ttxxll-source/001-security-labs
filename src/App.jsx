@@ -1,3 +1,6 @@
+import GuardianShowcase from "./components/GuardianShowcase"
+import "./components/GuardianShowcase.css"
+
 function App() {
   return (
     <main className="site">
@@ -14,7 +17,7 @@ function App() {
         <div className="nav-links">
           <a href="#home">Home</a>
           <a href="#products">Products</a>
-          <a href="#security">Security</a>
+          <a href="#guardian">Security</a>
           <a href="#contact">Support</a>
         </div>
 
@@ -25,8 +28,6 @@ function App() {
 
       <section className="hero" id="home">
         <div className="grid-background" />
-        <div className="glow glow-one" />
-        <div className="glow glow-two" />
 
         <div className="hero-content">
           <div className="status-pill">
@@ -47,12 +48,12 @@ function App() {
           </p>
 
           <div className="hero-actions">
-            <a className="primary-button" href="#products">
+            <a className="primary-button" href="#guardian">
               View 001 Guardian
               <span>→</span>
             </a>
 
-            <a className="secondary-button" href="#security">
+            <a className="secondary-button" href="#guardian">
               Explore Security
             </a>
           </div>
@@ -131,18 +132,21 @@ function App() {
       <section className="products" id="products">
         <div className="section-heading">
           <p>001 / PRODUCTS</p>
+
           <h2>Built for serious communities.</h2>
+
           <span>
             Our first security platform is designed to protect, investigate
             and recover critical Discord infrastructure.
           </span>
         </div>
 
-        <div className="product-card">
+        <a href="#guardian" className="product-card">
           <div className="product-number">01</div>
 
           <div className="product-copy">
             <span className="product-type">DISCORD SECURITY SYSTEM</span>
+
             <h3>001 GUARDIAN</h3>
 
             <p>
@@ -159,23 +163,10 @@ function App() {
           </div>
 
           <div className="product-arrow">↗</div>
-        </div>
+        </a>
       </section>
 
-      <section className="security-section" id="security">
-        <p className="eyebrow">BEYOND ANTI-NUKE</p>
-
-        <h2>
-          Detection is only
-          <span> the beginning.</span>
-        </h2>
-
-        <p>
-          001 Guardian identifies the actor, preserves forensic evidence,
-          records the incident, correlates related threats and determines
-          what can be recovered.
-        </p>
-      </section>
+      <GuardianShowcase />
 
       <footer id="contact">
         <div>
