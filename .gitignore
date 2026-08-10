@@ -1,22 +1,100 @@
+# =========================================================
+# HAMOOD LABS
+# Git Ignore Rules
+# =========================================================
+
+
+# ---------------------------------------------------------
+# Dependencies
+# ---------------------------------------------------------
+
+node_modules/
+
+
+# ---------------------------------------------------------
+# Build Output
+# ---------------------------------------------------------
+
+dist/
+dist-ssr/
+
+
+# ---------------------------------------------------------
 # Logs
-logs
+# ---------------------------------------------------------
+
+logs/
 *.log
+*.log.*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+
+# ---------------------------------------------------------
+# Local Environment / Secrets
+# IMPORTANT: Never commit Discord or database secrets
+# ---------------------------------------------------------
+
+.env
+.env.*
+!.env.example
+
+.dev.vars
+.dev.vars.*
+
 *.local
 
-# Editor directories and files
+
+# ---------------------------------------------------------
+# Cloudflare / Wrangler Local Data
+# ---------------------------------------------------------
+
+.wrangler/
+
+
+# ---------------------------------------------------------
+# Temporary HAMOOD LABS Development Builds
+# ---------------------------------------------------------
+
+new-site-v3/
+new-src-performance/
+new-src-v2/
+new-src-v22/
+new-src-v23/
+new-src-v24/
+new-src-*/
+
+
+# ---------------------------------------------------------
+# Local Backups
+# ---------------------------------------------------------
+
+src-backup-before-v2/
+backup-*/
+*.zip
+
+
+# ---------------------------------------------------------
+# Accidental Duplicate Routes
+# ---------------------------------------------------------
+
+products/products/
+suggestions/suggestions/
+
+
+# ---------------------------------------------------------
+# Editors / Operating System
+# ---------------------------------------------------------
+
 .vscode/*
 !.vscode/extensions.json
-.idea
+
+.idea/
 .DS_Store
+
 *.suo
 *.ntvs*
 *.njsproj
