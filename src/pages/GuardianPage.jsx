@@ -6,6 +6,8 @@ import {
   GuardianSystemMap,
 } from "../components/GuardianExperience"
 import { PageHero } from "../components/PlatformShell"
+import { useProducts } from "../hooks/useProducts"
+import { usePlatformContent } from "../hooks/usePlatformContent"
 import { GUARDIAN_INVITE_URL, ROUTES } from "../siteConfig"
 
 function GuardianProductNav() {
@@ -22,18 +24,26 @@ function GuardianProductNav() {
 }
 
 export default function GuardianPage() {
+  const { products } = useProducts()
+  const { pages } = usePlatformContent()
+  const managedPage = pages?.guardian
+  const product = products.find((item) => item.slug === "guardian")
+  const installHref = product?.installHref || GUARDIAN_INVITE_URL
+  const requirements = Array.isArray(product?.requirements) ? product.requirements : []
+  const permissionNotes = Array.isArray(product?.permissionNotes) ? product.permissionNotes : []
+
   return (
     <>
       <PageHero
-        eyebrow="001 GUARDIAN / OFFICIAL PRODUCT CENTER"
-        title="001 GUARDIAN"
-        accent="SECURITY + RECOVERY."
-        arabicTitle="منتج الحماية الأول داخل HAMOOD LABS."
-        arabicText="هذي صفحة Guardian فقط. هنا تتعرف على النظام وقدراته وطريقة استجابته للحوادث، بينما الدليل والأسئلة والأوامر موجودة في صفحات مستقلة عشان ما يصير كل شيء محشور في مكان واحد."
+        eyebrow={managedPage?.eyebrow || "001 GUARDIAN / OFFICIAL PRODUCT CENTER"}
+        title={managedPage?.headline || "001 GUARDIAN"}
+        accent={managedPage?.accent || "SECURITY + RECOVERY."}
+        arabicTitle={managedPage?.title_ar || "منتج الحماية الأول داخل HAMOOD LABS."}
+        arabicText={managedPage?.body_ar || "هذي صفحة Guardian فقط. هنا تتعرف على النظام وقدراته وطريقة استجابته للحوادث، بينما الدليل والأسئلة والأوامر موجودة في صفحات مستقلة عشان ما يصير كل شيء محشور في مكان واحد."}
         actions={(
           <>
             <a className="primary-button" href={ROUTES.guardianDocs}>OPEN USER GUIDE <span>→</span></a>
-            <a className="secondary-button" href={GUARDIAN_INVITE_URL} target="_blank" rel="noopener noreferrer">INSTALL GUARDIAN <span>↗</span></a>
+            <a className="secondary-button" data-discord-install href={installHref} target="_blank" rel="noopener noreferrer">INSTALL GUARDIAN <span>↗</span></a>
           </>
         )}
       >
@@ -59,6 +69,39 @@ export default function GuardianPage() {
           </div>
         </div>
         <GuardianQuickFacts />
+      </section>
+
+      <section className="dynamic-product-requirements page-section" data-reveal dir="rtl">
+        <div className="section-heading-split">
+          <div>
+            <p className="eyebrow">INSTALL REQUIREMENTS</p>
+            <h2>قبل ما تضيف <span>001 GUARDIAN.</span></h2>
+          </div>
+          <div>
+            <strong>المتطلبات والصلاحيات واضحة قبل التثبيت.</strong>
+            <p>المعلومات التالية تُدار من HAMOOD ADMIN وتقدر تتغير مع تحديث متطلبات المنتج.</p>
+          </div>
+        </div>
+        <div className="requirement-list">
+          {(requirements.length ? requirements : [
+            "لازم تكون عندك صلاحية إدارة السيرفر لإضافة التطبيق.",
+            "ضع رتبة 001 GUARDIAN فوق الرتب التي يحتاج النظام إدارتها.",
+            "راجع صلاحيات Discord النهائية قبل الموافقة على التثبيت.",
+          ]).map((item, index) => (
+            <article key={`${index}-${item}`}><span>{String(index + 1).padStart(2, "0")}</span><p>{item}</p></article>
+          ))}
+        </div>
+        {permissionNotes.length > 0 && (
+          <div className="permission-note-grid">
+            {permissionNotes.map((item, index) => (
+              <article key={`${index}-${item.name}`}><span>{item.name}</span><p>{item.why}</p></article>
+            ))}
+          </div>
+        )}
+        <div className="route-hero-actions guardian-requirement-actions">
+          <a className="primary-button" data-discord-install href={installHref}>إضافة 001 GUARDIAN إلى Discord <span>↗</span></a>
+          <a className="secondary-button" href={ROUTES.guardianDocs}>دليل الإعداد <span>→</span></a>
+        </div>
       </section>
 
       <GuardianSystemMap />
@@ -89,7 +132,7 @@ export default function GuardianPage() {
         <div className="guardian-next-grid">
           <a href={ROUTES.guardianDocs}><span>01</span><strong>USER GUIDE</strong><small dir="rtl">الدليل + الأوامر + التثبيت</small></a>
           <a href={ROUTES.guardianFaq}><span>02</span><strong>ARABIC FAQ</strong><small dir="rtl">أهم الأسئلة قبل التثبيت</small></a>
-          <a href={GUARDIAN_INVITE_URL} target="_blank" rel="noopener noreferrer"><span>03</span><strong>INSTALL</strong><small dir="rtl">الرابط الرسمي لـ001 Guardian</small></a>
+          <a data-discord-install href={installHref} target="_blank" rel="noopener noreferrer"><span>03</span><strong>INSTALL</strong><small dir="rtl">الرابط الرسمي لـ001 Guardian</small></a>
         </div>
       </section>
     </>

@@ -1,52 +1,60 @@
 import { PageHero, ProductCard } from "../components/PlatformShell"
-import { platformCategories, productCatalog } from "../data/products"
+import { platformCategories } from "../data/products"
+import { useProducts } from "../hooks/useProducts"
+import { usePlatformContent } from "../hooks/usePlatformContent"
 import { BRAND, ROUTES } from "../siteConfig"
 
 export default function ProductsPage() {
+  const { products, stats } = useProducts()
+  const { pages } = usePlatformContent()
+  const page = pages?.products
+
   return (
     <>
       <PageHero
-        eyebrow="HAMOOD LABS / PRODUCT DIRECTORY"
-        title="ALL SYSTEMS."
-        accent="ONE ECOSYSTEM."
-        arabicTitle="كل البوتات والأنظمة في مكان واحد."
-        arabicText="هنا تشوف المنتجات الجاهزة، الأنظمة قيد التطوير، والمساحات المحجوزة للإصدارات القادمة. كل منتج جاهز يحصل على Product Center وتوثيق مستقل."
+        eyebrow={page?.eyebrow || "HAMOOD LABS / PRODUCT DIRECTORY"}
+        title={page?.headline || "ALL SYSTEMS."}
+        accent={page?.accent || "ONE ECOSYSTEM."}
+        arabicTitle={page?.title_ar || "كل البوتات والأنظمة في مكان واحد."}
+        arabicText={page?.body_ar || "استعرض المنتجات المتاحة والقادمة. أي بوت جديد يتم نشره من لوحة الإدارة يظهر هنا تلقائيًا مع صفحته ومتطلباته وزر التثبيت إذا كان جاهزًا."}
         actions={(
           <>
-            <a className="primary-button" href={ROUTES.guardian}>OPEN 001 GUARDIAN <span>→</span></a>
-            <a className="secondary-button" href={ROUTES.suggestions}>SUGGEST A PRODUCT <span>↗</span></a>
+            <a className="primary-button" href="#product-directory">استعرض المنتجات <span>↓</span></a>
+            <a className="secondary-button" href={ROUTES.suggestions}>أرسل اقتراحًا <span>↗</span></a>
           </>
         )}
       >
         <div className="directory-overview-card" data-tilt>
-          <span>CATALOG STATUS</span>
-          <strong>03 SLOTS</strong>
-          <div><i /> 001 LIVE</div>
-          <div><i /> 002 IN DEVELOPMENT</div>
-          <div><i className="muted-dot" /> 003 RESERVED</div>
+          <span>حالة الكتالوج</span>
+          <strong>{String(stats.total).padStart(2, "0")} منتج</strong>
+          <div><i /> {String(stats.live).padStart(2, "0")} متاح الآن</div>
+          <div><i /> {String(stats.building).padStart(2, "0")} قيد التطوير</div>
+          <div><i className="muted-dot" /> يتحدث تلقائيًا من لوحة الإدارة</div>
         </div>
       </PageHero>
 
-      <section className="products-directory-page page-section" data-reveal>
+      <section className="products-directory-page page-section" id="product-directory" data-reveal>
         <div className="section-heading-split">
           <div>
-            <p className="eyebrow">LIVE + UPCOMING + RESERVED</p>
-            <h2>THE HAMOOD LABS <span>LINEUP.</span></h2>
+            <p className="eyebrow">LIVE + UPCOMING</p>
+            <h2>HAMOOD LABS <span>PRODUCTS.</span></h2>
           </div>
           <div dir="rtl">
-            <strong>Guardian هو أول منتج فقط — مو كامل المنصة.</strong>
-            <p>كل بطاقة هنا تمثل منتج مستقل. لما يصير أي بوت جاهز، يتحول من حالة التطوير إلى منتج له صفحة ودليل وتثبيت رسمي.</p>
+            <strong>كل منتج له مكان واضح ومستقل.</strong>
+            <p>المنتج المنشور يظهر للزوار مباشرة. وإذا كان بوتًا وجاهزًا للتثبيت، يظهر زر الإضافة مع المتطلبات والصلاحيات المطلوبة قبل التثبيت.</p>
           </div>
         </div>
 
         <div className="product-rail product-directory-grid">
-          {productCatalog.map((product) => <ProductCard product={product} key={product.slug} />)}
+          {products.map((product) => <ProductCard product={product} key={product.slug} />)}
         </div>
 
-        <div className="future-slot page-future-slot" data-tilt>
-          <div><span>+</span><strong>004 / 005 / FUTURE PRODUCTS</strong></div>
-          <p dir="rtl">معمارية الموقع جاهزة لإضافة منتجات جديدة بدون إعادة بناء الهوية أو خلط توثيق منتج مع منتج ثاني.</p>
-        </div>
+        {!products.length && (
+          <div className="future-slot page-future-slot">
+            <div><span>+</span><strong>لا توجد منتجات منشورة حاليًا</strong></div>
+            <p dir="rtl">أضف منتجًا من HAMOOD ADMIN ثم انشره ليظهر هنا.</p>
+          </div>
+        )}
       </section>
 
       <section className="product-architecture page-section" data-reveal>
@@ -56,8 +64,8 @@ export default function ProductsPage() {
             <h2>EVERY PRODUCT GETS <span>ITS OWN SPACE.</span></h2>
           </div>
           <div dir="rtl">
-            <strong>ما نرمي كل شيء في الصفحة الرئيسية.</strong>
-            <p>كل منتج جاهز له صفحة تعريف، خريطة قدرات، دليل استخدام، FAQ، مرجع أوامر ورابط تثبيت حسب احتياج المنتج نفسه.</p>
+            <strong>الصفحات تبقى مرتبة حتى مع زيادة عدد المنتجات.</strong>
+            <p>كل بوت منشور يحصل على صفحة مستقلة تعرض الوصف والمتطلبات والصلاحيات وروابط التوثيق والتثبيت بدل حشر كل التفاصيل في الصفحة الرئيسية.</p>
           </div>
         </div>
 
@@ -75,15 +83,15 @@ export default function ProductsPage() {
 
       <section className="suggestion-teaser page-section" data-reveal>
         <div>
-          <p className="eyebrow">WHAT SHOULD WE BUILD NEXT?</p>
+          <p className="eyebrow">SUGGESTIONS</p>
           <h2>HELP SHAPE <span>THE NEXT RELEASE.</span></h2>
-          <p dir="rtl">اقتراحك ممكن يكون ميزة لمنتج موجود أو فكرة لبوت جديد بالكامل. مركز الاقتراحات يرتب الفكرة عشان تقدر ترسلها مباشرة للمطور.</p>
+          <p dir="rtl">عندك فكرة لبوت جديد أو ميزة؟ أرسلها من مركز الاقتراحات، وتحصل على رقم متابعة وحالة واضحة للاقتراح.</p>
         </div>
         <div className="suggestion-teaser-card" data-tilt>
           <span>CREATOR DISCORD</span>
           <strong>{BRAND.discordUsername}</strong>
           <small>BUILT &amp; DEVELOPED BY HAMOOD — 001</small>
-          <a href={ROUTES.suggestions}>OPEN SUGGESTIONS →</a>
+          <a href={ROUTES.suggestions}>فتح مركز الاقتراحات →</a>
         </div>
       </section>
     </>

@@ -44,6 +44,7 @@ lerna-debug.log*
 
 .dev.vars
 .dev.vars.*
+!.dev.vars.example
 
 *.local
 
@@ -59,7 +60,7 @@ lerna-debug.log*
 # Temporary HAMOOD LABS Development Builds
 # ---------------------------------------------------------
 
-new-site-v3/
+new-site-v*/
 new-src-performance/
 new-src-v2/
 new-src-v22/

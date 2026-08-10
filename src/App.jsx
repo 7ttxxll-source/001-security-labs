@@ -3,15 +3,21 @@ import { useEffect } from "react"
 import "./components/GuardianShowcase.css"
 import "./components/GuardianExperience.css"
 import "./components/SupportFaq.css"
+import "./components/AccessGate.css"
 import "./App.css"
 
-import { SiteFooter, SiteHeader } from "./components/PlatformShell"
+import { SiteAnnouncement, SiteFooter, SiteHeader } from "./components/PlatformShell"
+import { AccessGate, InstallLockModal } from "./components/AccessGate"
+import { AccessProvider } from "./auth/AccessContext"
 import HomePage from "./pages/HomePage"
 import ProductsPage from "./pages/ProductsPage"
 import GuardianPage from "./pages/GuardianPage"
 import GuardianDocsPage from "./pages/GuardianDocsPage"
 import GuardianFaqPage from "./pages/GuardianFaqPage"
 import SuggestionsPage from "./pages/SuggestionsPage"
+import AdminPage from "./pages/AdminPage"
+import DynamicProductPage from "./pages/DynamicProductPage"
+import "./pages/DynamicProductPage.css"
 import { BRAND, ROUTES } from "./siteConfig"
 
 const pageTitles = {
@@ -21,6 +27,7 @@ const pageTitles = {
   [ROUTES.guardianDocs]: `001 Guardian Documentation — ${BRAND.site}`,
   [ROUTES.guardianFaq]: `001 Guardian FAQ — ${BRAND.site}`,
   [ROUTES.suggestions]: `Suggestions — ${BRAND.site}`,
+  [ROUTES.admin]: `HAMOOD ADMIN — ${BRAND.site}`,
 }
 
 function normalizePath(pathname) {
@@ -38,6 +45,8 @@ function resolvePage(pathname) {
   if (path === ROUTES.guardianDocs) return <GuardianDocsPage />
   if (path === ROUTES.guardianFaq) return <GuardianFaqPage />
   if (path === ROUTES.suggestions) return <SuggestionsPage />
+  if (path === ROUTES.admin) return <AdminPage />
+  if (/^\/products\/[a-z0-9-]+\/$/i.test(path)) return <DynamicProductPage />
   return <HomePage />
 }
 
@@ -227,15 +236,26 @@ function MotionBackground() {
 
 function App() {
   useInteractiveSystem()
-  const page = resolvePage(window.location.pathname)
+  const currentPath = normalizePath(window.location.pathname)
+  const page = resolvePage(currentPath)
+  const isAdmin = currentPath === ROUTES.admin
 
   return (
-    <main className="site multi-page-site">
-      <MotionBackground />
-      <SiteHeader />
-      <div className="page-content">{page}</div>
-      <SiteFooter />
-    </main>
+    <AccessProvider>
+      {isAdmin ? (
+        <AdminPage />
+      ) : (
+        <main className="site multi-page-site">
+          <MotionBackground />
+          <SiteHeader />
+          <SiteAnnouncement />
+          <div className="page-content">{page}</div>
+          <SiteFooter />
+          <AccessGate />
+          <InstallLockModal />
+        </main>
+      )}
+    </AccessProvider>
   )
 }
 

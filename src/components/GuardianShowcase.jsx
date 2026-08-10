@@ -1,5 +1,4 @@
-const GUARDIAN_INVITE_URL =
-  "https://discord.com/oauth2/authorize?client_id=1535228662641725520"
+const GUARDIAN_INVITE_URL = "/api/install/guardian"
 
 const securityEventData = [
   {

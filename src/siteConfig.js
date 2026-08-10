@@ -1,5 +1,10 @@
-export const GUARDIAN_INVITE_URL =
-  "https://discord.com/oauth2/authorize?client_id=1535228662641725520"
+export const GUARDIAN_INVITE_URL = "/api/install/guardian"
+
+export const AUTH_ROUTES = {
+  login: "/api/auth/discord",
+  session: "/api/auth/session",
+  logout: "/api/auth/logout",
+}
 
 export const BRAND = {
   site: "HAMOOD LABS",
@@ -16,6 +21,7 @@ export const ROUTES = {
   guardianDocs: "/products/guardian/docs/",
   guardianFaq: "/products/guardian/faq/",
   suggestions: "/suggestions/",
+  admin: "/admin/",
 }
 
 export const navigationItems = [

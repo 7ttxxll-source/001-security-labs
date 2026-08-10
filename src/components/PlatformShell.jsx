@@ -1,7 +1,11 @@
 import { BRAND, ROUTES, navigationItems } from "../siteConfig"
+import { useAccess } from "../auth/AccessContext"
+import { usePlatformContent } from "../hooks/usePlatformContent"
 
 export function SiteHeader() {
   const path = window.location.pathname
+  const { accessMode, session, loginWithDiscord, reopenAccessGate } = useAccess()
+  usePlatformContent()
 
   return (
     <header className="navbar platform-navbar">
@@ -30,11 +34,47 @@ export function SiteHeader() {
         })}
       </nav>
 
-      <a className="nav-available" href={ROUTES.guardian} aria-label="001 Guardian available now">
-        <span><i />001 AVAILABLE NOW</span>
-        <small>VIEW PRODUCT →</small>
-      </a>
+      <div className="nav-platform-actions">
+        <a className="nav-available" href={ROUTES.guardian} aria-label="001 Guardian available now">
+          <span><i />001 AVAILABLE NOW</span>
+          <small>VIEW PRODUCT →</small>
+        </a>
+        {session.user ? (
+          <>
+            {session.user.role && session.user.role !== "USER" && (
+              <a className="nav-admin-entry" href={ROUTES.admin} title="فتح لوحة التحكم الخاصة بك">
+                <span>⚙</span>
+                <strong>لوحة التحكم</strong>
+              </a>
+            )}
+            <button className="nav-account is-discord" type="button" onClick={reopenAccessGate}>
+              <i /> {session.user.global_name || session.user.username || "DISCORD USER"}
+            </button>
+          </>
+        ) : (
+          <button
+            className="nav-account"
+            type="button"
+            onClick={() => accessMode === "guest" ? loginWithDiscord() : reopenAccessGate()}
+          >
+            <i /> {accessMode === "guest" ? "GUEST / LOGIN" : "ACCESS"}
+          </button>
+        )}
+      </div>
     </header>
+  )
+}
+
+export function SiteAnnouncement() {
+  const { announcements } = usePlatformContent()
+  const announcement = announcements?.[0]
+  if (!announcement) return null
+  return (
+    <aside className={`site-announcement tone-${String(announcement.tone || "INFO").toLowerCase()}`} dir="rtl">
+      <span>إعلان</span>
+      <strong>{announcement.title_ar}</strong>
+      {announcement.body_ar && <p>{announcement.body_ar}</p>}
+    </aside>
   )
 }
 

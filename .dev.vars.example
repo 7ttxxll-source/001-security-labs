@@ -1,0 +1,10 @@
+# HAMOOD LABS — LOCAL ONLY
+# Copy this file to .dev.vars and fill values locally.
+# NEVER commit .dev.vars.
+
+DISCORD_CLIENT_SECRET=PASTE_YOUR_DISCORD_CLIENT_SECRET_HERE
+SESSION_SECRET=GENERATE_A_LONG_RANDOM_SECRET_HERE
+
+# Required for HAMOOD ADMIN.
+# Use the numeric Discord User ID, NOT the username.
+DISCORD_OWNER_ID=PASTE_OWNER_DISCORD_USER_ID_HERE
